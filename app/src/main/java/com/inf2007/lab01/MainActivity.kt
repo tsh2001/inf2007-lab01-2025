@@ -38,7 +38,8 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     Lab01Theme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            var username by remember { mutableStateOf("") }
+            var name by remember{ mutableStateOf("") }
+            var submittedName by remember { mutableStateOf("") }
             var showGreeting by remember { mutableStateOf(false) }
 
             Column(
@@ -55,7 +56,10 @@ fun MainScreen() {
 
                 Button(
                     onClick = {
-                        if (username.isNotBlank()) {
+                        if (name.isNotBlank()) {
+                            submittedName = name
+                            showGreeting = true
+                        } else {
                             showGreeting = false
                         }
                     },
@@ -67,8 +71,8 @@ fun MainScreen() {
                 }
 
                 if (showGreeting) {
-                    Greeeting(
-                        name = username,
+                    Greeting(
+                        name = submittedName,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp)
@@ -88,17 +92,17 @@ fun UserInput(name: String, onNameChange: (String) -> Unit, modifier: Modifier =
         label = { Text("Enter your Name") },
         modifier = modifier
             .fillMaxWidth()
-            .testTag("UserInput")
+            .testTag("nameInput")
     )
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $username!, Welcome to InF2007!",
+        text = "Hello $name!, Welcome to INF2007!",
         modifier = Modifier
             .fillMaxWidth()
-            .testTag("greeting")
+            .testTag("greetingMsg") // here wrong go see whats wrong
     )
 }
 
